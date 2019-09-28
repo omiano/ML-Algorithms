@@ -12,7 +12,7 @@ class Node:
         self.data = data
         count = 0
         for row in data:
-            if row[22] == 1:
+            if row[-1] == 1:
                 count = count + 1
         if count > (len(data) - count):
             self.majorityLabel = 1
@@ -28,9 +28,9 @@ def id3(trainingData):
         currNode = q.popleft()
         # check if current node is pure
         isPure = True
-        firstLabel = currNode.data[0][22]
+        firstLabel = currNode.data[0][-1]
         for row in currNode.data:
-            if row[22] != firstLabel:
+            if row[-1] != firstLabel:
                 isPure = False
                 break
         if isPure:
@@ -61,7 +61,7 @@ def getMinEntropy(trainingData):
     minEntropy = 100
     feature = 0
     val = 0
-    for i in range(22):
+    for i in range(len(trainingData[0])):
         entropy = getFeatureEntropy(trainingData, i)
         if entropy[0] < minEntropy:
             minEntropy = entropy[0]
@@ -125,12 +125,12 @@ def getAttrVals(trainingData, feature):
         if valIndex != -1:
             numOccurrences = operator.getitem(attrVals, valIndex)[1]
             probNum = operator.getitem(attrVals, valIndex)[2]
-            if row[22] == 1:
+            if row[-1] == 1:
                 operator.setitem(attrVals, valIndex, (row[feature], numOccurrences + 1, probNum + 1))
             else:
                 operator.setitem(attrVals, valIndex, (row[feature], numOccurrences + 1, probNum))
         else:
-            if row[22] == 1:
+            if row[-1] == 1:
                 attrVals.append((row[feature], 1, 1))
             else:
                 attrVals.append((row[feature], 1, 0))
@@ -183,7 +183,7 @@ def pruneTree(rootNode):
 # get validation error when pruning at nodeToPrune
 def testNewTree(root, nodeToPrune):
     # get validation data
-    validationData = open('pa2validation.txt', "r").readlines()
+    validationData = open('id3validation.txt', "r").readlines()
     validationMatrix = []
     for line in validationData:
         validationMatrix.append(np.fromstring(line, dtype=float, sep=' '))
@@ -206,7 +206,7 @@ def testNewTree(root, nodeToPrune):
                 currNode = currNode.yesPtr
             else:
                 currNode = currNode.noPtr
-        if currNode.data != row[22]:
+        if currNode.data != row[-1]:
             numErrors = numErrors + 1
         numRows = numRows + 1
     return float(numErrors)/numRows
