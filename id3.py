@@ -183,7 +183,7 @@ def pruneTree(rootNode):
 # get validation error when pruning at nodeToPrune
 def testNewTree(root, nodeToPrune):
     # get validation data
-    validationData = open('id3validation.txt', "r").readlines()
+    validationData = open('data/id3validation.txt', "r").readlines()
     validationMatrix = []
     for line in validationData:
         validationMatrix.append(np.fromstring(line, dtype=float, sep=' '))

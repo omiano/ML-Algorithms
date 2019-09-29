@@ -9,10 +9,10 @@ import math
 # kNN Example Use
 
 # get training data and vector to test
-knnTrainingData = open('knntrain.txt', 'r').readlines()
+knnTrainingData = open('data/knntrain.txt', 'r').readlines()
 
 # get projection matrix
-projection = open('projection.txt', 'r').readlines()
+projection = open('data/projection.txt', 'r').readlines()
 projMatrix = []
 for line in projection:
     projMatrix.append(np.fromstring(line, dtype=float, sep=' '))
@@ -34,7 +34,7 @@ knnTrainingMatrix = np.delete(knnTrainingMatrix, 784, 1)
 productMatrix = knnTrainingMatrix.dot(projMatrix)
 
 # get test matrix
-knnTestData = open('knntest.txt', 'r').readlines()
+knnTestData = open('data/knntest.txt', 'r').readlines()
 knnTestMatrix = []
 for line in knnTestData:
     knnTestMatrix.append(np.fromstring(line, dtype=int, sep=' '))
@@ -63,14 +63,14 @@ print(float(numErrors)/len(knnTestMatrix))
 # ID3 Example Use
 
 # get training data
-id3TrainingData = open('id3train.txt', 'r').readlines()
+id3TrainingData = open('data/id3train.txt', 'r').readlines()
 id3TrainingMatrix = []
 for line in id3TrainingData:
     id3TrainingMatrix.append(np.fromstring(line, dtype=float, sep=' '))
 id3TrainingMatrix = np.array(id3TrainingMatrix)
 
 # get test data
-id3TestData = open('id3test.txt', 'r').readlines()
+id3TestData = open('data/id3test.txt', 'r').readlines()
 id3TestMatrix = []
 for line in id3TestData:
     id3TestMatrix.append(np.fromstring(line, dtype=float, sep=' '))
@@ -112,14 +112,14 @@ print(float(numErrors)/len(id3TestMatrix))
 # Perceptron Example Use
 
 # get training data
-perTrainingData = open('pertrain.txt', 'r').readlines()
+perTrainingData = open('data/pertrain.txt', 'r').readlines()
 perTrainingMatrix = []
 for line in perTrainingData:
     perTrainingMatrix.append(np.fromstring(line, dtype=float, sep=' '))
 perTrainingMatrix = np.array(perTrainingMatrix)
 
 # get test data
-perTestData = open('pertest.txt', 'r').readlines()
+perTestData = open('data/pertest.txt', 'r').readlines()
 perTestMatrix = []
 for line in perTestData:
     perTestMatrix.append(np.fromstring(line, dtype=float, sep=' '))
@@ -173,14 +173,14 @@ print(float(numErrors)/len(perTestMatrix))
 # Boosting Example Use
 
 # get training data
-boostTrainingData = open('boosttrain.txt', 'r').readlines()
+boostTrainingData = open('data/boosttrain.txt', 'r').readlines()
 boostTrainingMatrix = []
 for line in boostTrainingData:
     boostTrainingMatrix.append(np.fromstring(line, dtype=float, sep=' '))
 boostTrainingMatrix = np.array(boostTrainingMatrix)
 
 # get test data
-boostTestData = open('boosttest.txt', 'r').readlines()
+boostTestData = open('data/boosttest.txt', 'r').readlines()
 boostTestMatrix = []
 for line in boostTestData:
     boostTestMatrix.append(np.fromstring(line, dtype=float, sep=' '))
