@@ -1,6 +1,7 @@
 from knn import kNN
 from id3 import id3, pruneTree
 from perceptron import perceptron, kernelizedPerceptron
+from boosting import boost, strongLearner
 import numpy as np
 import random
 import math
@@ -168,3 +169,30 @@ for row in perTestMatrix:
         numErrors = numErrors + 1
 print(float(numErrors)/len(perTestMatrix))
 
+
+# Boosting Example Use
+
+# get training data
+boostTrainingData = open('boosttrain.txt', 'r').readlines()
+boostTrainingMatrix = []
+for line in boostTrainingData:
+    boostTrainingMatrix.append(np.fromstring(line, dtype=float, sep=' '))
+boostTrainingMatrix = np.array(boostTrainingMatrix)
+
+# get test data
+boostTestData = open('boosttest.txt', 'r').readlines()
+boostTestMatrix = []
+for line in boostTestData:
+    boostTestMatrix.append(np.fromstring(line, dtype=float, sep=' '))
+boostTestMatrix = np.array(boostTestMatrix)
+
+# get an array of weak learners
+f = boost(boostTrainingMatrix, 4)
+
+# get test error
+numErrors = 0
+for row in boostTestMatrix:
+    label = strongLearner(f, row)
+    if label != row[-1]:
+        numErrors = numErrors + 1
+print(float(numErrors)/len(boostTestMatrix))
