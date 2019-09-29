@@ -1,6 +1,9 @@
 from knn import kNN
 from id3 import id3, pruneTree
+from perceptron import perceptron, kernelizedPerceptron
 import numpy as np
+import random
+import math
 
 # kNN Example Use
 
@@ -103,4 +106,65 @@ for row in id3TestMatrix:
     if currNode.data != row[-1]:
         numErrors = numErrors + 1
 print(float(numErrors)/len(id3TestMatrix))
+
+
+# Perceptron Example Use
+
+# get training data
+perTrainingData = open('pertrain.txt', 'r').readlines()
+perTrainingMatrix = []
+for line in perTrainingData:
+    perTrainingMatrix.append(np.fromstring(line, dtype=float, sep=' '))
+perTrainingMatrix = np.array(perTrainingMatrix)
+
+# get test data
+perTestData = open('pertest.txt', 'r').readlines()
+perTestMatrix = []
+for line in perTestData:
+    perTestMatrix.append(np.fromstring(line, dtype=float, sep=' '))
+perTestMatrix = np.array(perTestMatrix)
+
+# kernel function
+def K(x, z):
+    val = np.linalg.norm(x-z, 1)
+    val = val/20
+    return math.exp(-val)
+
+# Linear Perceptron Test Error
+numErrors = 0
+w = perceptron(perTrainingMatrix, 2)
+for row in perTestMatrix:
+    label = 0
+    if np.dot(w, row[:-1]) < 0:
+        label = 2
+    elif np.dot(w, row[:-1]) > 0:
+        label = 1
+    else:
+        label = random.randint(1, 2)
+    if label != row[-1]:
+        numErrors = numErrors + 1
+print(float(numErrors)/len(perTestMatrix))
+
+# Kernelized Perceptron Test Error
+numErrors = 0
+M = kernelizedPerceptron(perTrainingMatrix, 4, K)
+for row in perTestMatrix:
+    currsum = 0
+    for i in M:
+        y_i = perTrainingMatrix[i][-1]
+        if y_i == 2:
+            y_i = -1
+        x_i = perTrainingMatrix[i][:-1]
+        x = np.array(row[:-1])
+        currsum = currsum + y_i*K(x_i, x)
+    label = 0
+    if currsum < 0:
+        label = 2
+    elif currsum > 0:
+        label = 1
+    else:
+        label = random.randint(1, 2)
+    if label != row[-1]:
+        numErrors = numErrors + 1
+print(float(numErrors)/len(perTestMatrix))
 
